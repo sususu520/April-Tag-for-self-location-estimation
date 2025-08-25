@@ -118,7 +118,8 @@ def send_pose():
                 to_modbus_int(yaw_d)
             ]
 
-            # Holding Register (アドレス0から4つ) に書き込み
+            # 最初の引数はレジスタの種類を表して、4は「入力レジスタ（Input Register）」
+            # 3は開始アドレスを示して、Modbus アドレスで言うと 30004 に相当する（アドレスは0始まる）
             context[0].setValues(4, 3, regs)
 
         time.sleep(0.2)
@@ -129,4 +130,5 @@ if __name__ == "__main__":
     Thread(target=send_pose, daemon=True).start()
     print("Modbusサーバー起動: 0.0.0.0:1502")
     print("クライアントは保持レジスタ(FC03)のアドレス40001から4レジスタを読み取ってください")
+
     StartTcpServer(context, address=("0.0.0.0", 1502))
